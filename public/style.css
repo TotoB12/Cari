@@ -1,0 +1,77 @@
+body {
+    font-family: Arial, sans-serif;
+    margin:0; padding:0;
+    background: #f0f0f0;
+  }
+  header {
+    background: #000;
+    color: #fff;
+    padding: 10px;
+  }
+  header h1 {
+    display: inline-block;
+    margin: 0;
+  }
+  #auth-section {
+    float: right;
+  }
+  #auth-section #login-form input {
+    padding:5px;
+    margin:2px;
+  }
+  #auth-section #login-form button {
+    margin:2px;
+    padding:5px 10px;
+  }
+  #user-info {
+    display: inline-block;
+  }
+  #user-info span {
+    margin-right:10px;
+  }
+  main {
+    padding: 20px;
+  }
+  #search-section, #chat-section {
+    margin-top:20px;
+  }
+  #searchResults {
+    margin-top:10px;
+    background:#fff;
+    padding:10px;
+    border:1px solid #ccc;
+  }
+  #searchResults div {
+    padding:5px 0;
+    border-bottom:1px solid #eee;
+    cursor:pointer;
+  }
+  #searchResults div:last-child {
+    border-bottom:none;
+  }
+  #messages {
+    width:100%;
+    height:300px;
+    background:#fff;
+    overflow-y:auto;
+    padding:10px;
+    border:1px solid #ccc;
+    margin-bottom:10px;
+  }
+  .message {
+    margin-bottom:10px;
+  }
+  .message .sender {
+    font-weight:bold;
+  }
+  #messageForm input {
+    width:80%;
+    padding:5px;
+  }
+  #messageForm button {
+    padding:5px 10px;
+  }
+  #notification-section {
+    margin-top:20px;
+  }
+  

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cari - Simple Chat</title>
+  <link rel="manifest" href="/manifest.json" />
+  <link rel="stylesheet" href="/style.css" />
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>Cari Chat</h1>
+      <div id="auth-section">
+        <div id="login-form">
+          <input type="email" id="loginEmail" placeholder="Email"/>
+          <input type="password" id="loginPassword" placeholder="Password"/>
+          <button id="loginBtn">Login</button>
+          <button id="signupBtn">Sign Up</button>
+        </div>
+        <div id="user-info" style="display:none;">
+          <span id="userEmail"></span>
+          <button id="logoutBtn">Logout</button>
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <div id="search-section" style="display:none;">
+        <input type="text" id="searchEmail" placeholder="Search user by email"/>
+        <button id="searchBtn">Search</button>
+        <div id="searchResults"></div>
+      </div>
+
+      <div id="chat-section" style="display:none;">
+        <h2 id="chatWith"></h2>
+        <div id="messages"></div>
+        <div id="messageForm">
+          <input type="text" id="messageInput" placeholder="Type a message..."/>
+          <button id="sendBtn">Send</button>
+        </div>
+      </div>
+
+      <div id="notification-section" style="display:none;">
+        <button id="enableNotificationsBtn">Enable Notifications</button>
+      </div>
+    </main>
+  </div>
+
+  <script src="/firebase-config.js"></script>
+  <script src="/script.js"></script>  
+
+  <!-- Service Worker (for PWA and Push) -->
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js')
+        .then(reg => console.log('Service Worker registered', reg))
+        .catch(err => console.error('SW registration failed:', err));
+    }
+  </script>
+</body>
+</html>

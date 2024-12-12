@@ -1,0 +1,21 @@
+{
+  "name": "cari-chat",
+  "version": "1.0.0",
+  "description": "A simple two-user chat web app with Firebase authentication, Firestore, and push notifications.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "firebase-admin": "^11.10.1",
+    "web-push": "^3.4.5"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "author": "Your Name",
+  "license": "MIT"
+}
