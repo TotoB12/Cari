@@ -15,6 +15,7 @@ const db = firebase.firestore();
 let currentUser = null;
 let currentChatUserEmail = null;
 let currentChatUnsub = null;
+let notificationsEnabled = false;
 
 // UI Elements
 const appTitle = document.getElementById('app-title');
@@ -39,7 +40,7 @@ const messageInput = document.getElementById('messageInput');
 const sendBtn = document.getElementById('sendBtn');
 
 const settingsView = document.getElementById('settings-view');
-const enableNotificationsBtn = document.getElementById('enableNotificationsBtn');
+const toggleNotificationsBtn = document.getElementById('toggleNotificationsBtn');
 const logoutBtn = document.getElementById('logoutBtn');
 
 // Navigation
@@ -53,20 +54,20 @@ function showView(view) {
 
   switch (view) {
     case 'auth':
-      authView.style.display = 'block';
+      authView.style.display = 'flex';
       appTitle.textContent = 'Cari Chat';
       break;
     case 'contacts':
-      contactsView.style.display = 'block';
+      contactsView.style.display = 'flex';
       appTitle.textContent = 'Contacts';
       settingsBtn.style.display = 'inline-block';
       break;
     case 'chat':
-      chatView.style.display = 'block';
+      chatView.style.display = 'flex';
       backBtn.style.display = 'inline-block';
       break;
     case 'settings':
-      settingsView.style.display = 'block';
+      settingsView.style.display = 'flex';
       appTitle.textContent = 'Settings';
       backBtn.style.display = 'inline-block';
       break;
@@ -86,6 +87,7 @@ auth.onAuthStateChanged(user => {
   if (user) {
     currentUser = user;
     loadContacts();
+    checkNotificationStatus();
     showView('contacts');
   } else {
     currentUser = null;
@@ -191,46 +193,81 @@ sendBtn.addEventListener('click', async () => {
   messageInput.value = '';
 
   // Send push notification via server
-  fetch('/send-notification', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      title: 'New Message',
-      body: `Message from ${currentUser.email}`
-    })
-  });
+  if (notificationsEnabled) {
+      fetch('/send-notification', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          title: 'New Message',
+          body: `Message from ${currentUser.email}`
+        })
+      });
+  }
 });
 
 // Settings
-// In script.js, modify the enableNotificationsBtn event listener:
-enableNotificationsBtn.addEventListener('click', async () => {
-  try {
-    const permission = await Notification.requestPermission();
-    if (permission === 'granted') {
-      console.log('Notification permission granted.');
-      const registration = await navigator.serviceWorker.ready;
-      const subscription = await registration.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
-      });
 
-      console.log('Push subscription successful:', subscription);
+// Check if notifications are enabled or disabled
+async function checkNotificationStatus() {
+  if (Notification.permission === 'granted') {
+    const registration = await navigator.serviceWorker.ready;
+    const subscription = await registration.pushManager.getSubscription();
+    notificationsEnabled = !!subscription;
+  } else {
+    notificationsEnabled = false;
+  }
+  updateNotificationButton();
+}
 
-      await fetch('/subscribe', {
+// Update the text of the toggle button based on notification status
+function updateNotificationButton() {
+  toggleNotificationsBtn.textContent = notificationsEnabled ? 'Disable Notifications' : 'Enable Notifications';
+}
+
+toggleNotificationsBtn.addEventListener('click', async () => {
+  if (notificationsEnabled) {
+    // Disable notifications
+    const registration = await navigator.serviceWorker.ready;
+    const subscription = await registration.pushManager.getSubscription();
+    if (subscription) {
+      await subscription.unsubscribe();
+      await fetch('/unsubscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(subscription)
+        body: JSON.stringify({ endpoint: subscription.endpoint })
       });
-
-      alert('Notifications enabled!');
-    } else {
-      console.warn('Notification permission denied or dismissed.');
-      alert('Notifications not granted');
     }
-  } catch (error) {
-    console.error('Error enabling notifications:', error);
-    alert('Error enabling notifications. Check console for details.');
+    notificationsEnabled = false;
+    alert('Notifications disabled!');
+  } else {
+    // Enable notifications
+    try {
+      const permission = await Notification.requestPermission();
+      if (permission === 'granted') {
+        console.log('Notification permission granted.');
+        const registration = await navigator.serviceWorker.ready;
+        const subscription = await registration.pushManager.subscribe({
+          userVisibleOnly: true,
+          applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
+        });
+        console.log('Push subscription successful:', subscription);
+        await fetch('/subscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(subscription)
+        });
+        notificationsEnabled = true;
+        alert('Notifications enabled!');
+      } else {
+        console.warn('Notification permission denied or dismissed.');
+        alert('Notifications not granted');
+      }
+    } catch (error) {
+      console.error('Error enabling notifications:', error);
+      alert('Error enabling notifications. Check console for details.');
+    }
   }
+  updateNotificationButton();
 });
 
 logoutBtn.addEventListener('click', () => {

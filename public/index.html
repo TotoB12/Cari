@@ -18,7 +18,7 @@
       <button id="settings-btn" style="display:none;">☰</button>
     </nav>
 
-    <div id="auth-view">
+    <div id="auth-view" class="view-content">
       <div class="form-container">
         <input type="email" id="loginEmail" placeholder="Email" required />
         <input type="password" id="loginPassword" placeholder="Password" required />
@@ -27,7 +27,7 @@
       </div>
     </div>
 
-    <div id="contacts-view" style="display:none;">
+    <div id="contacts-view" class="view-content" style="display:none;">
       <div class="search-container">
         <input type="text" id="searchEmail" placeholder="Search by email" />
         <button id="searchBtn"></button>
@@ -35,19 +35,21 @@
       <div id="contacts-list"></div>
     </div>
 
-    <div id="chat-view" style="display:none;">
+    <div id="chat-view" class="view-content" style="display:none;">
       <div id="chat-header">
         <h2 id="chat-title"></h2>
       </div>
-      <div id="messages"></div>
+      <div id="messages-container">
+          <div id="messages"></div>
+      </div>
       <div id="message-form">
         <input type="text" id="messageInput" placeholder="Type your message..." />
         <button id="sendBtn">Send</button>
       </div>
     </div>
 
-    <div id="settings-view" style="display:none;">
-      <button id="enableNotificationsBtn" class="full-width-btn">Enable Notifications</button>
+    <div id="settings-view" class="view-content" style="display:none;">
+      <button id="toggleNotificationsBtn" class="full-width-btn"></button>
       <button id="logoutBtn" class="full-width-btn secondary">Logout</button>
     </div>
   </div>
