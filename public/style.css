@@ -1,77 +1,194 @@
+/* General Styles */
 body {
-    font-family: Arial, sans-serif;
-    margin:0; padding:0;
-    background: #f0f0f0;
-  }
-  header {
-    background: #000;
-    color: #fff;
-    padding: 10px;
-  }
-  header h1 {
-    display: inline-block;
-    margin: 0;
-  }
-  #auth-section {
-    float: right;
-  }
-  #auth-section #login-form input {
-    padding:5px;
-    margin:2px;
-  }
-  #auth-section #login-form button {
-    margin:2px;
-    padding:5px 10px;
-  }
-  #user-info {
-    display: inline-block;
-  }
-  #user-info span {
-    margin-right:10px;
-  }
-  main {
-    padding: 20px;
-  }
-  #search-section, #chat-section {
-    margin-top:20px;
-  }
-  #searchResults {
-    margin-top:10px;
-    background:#fff;
-    padding:10px;
-    border:1px solid #ccc;
-  }
-  #searchResults div {
-    padding:5px 0;
-    border-bottom:1px solid #eee;
-    cursor:pointer;
-  }
-  #searchResults div:last-child {
-    border-bottom:none;
-  }
-  #messages {
-    width:100%;
-    height:300px;
-    background:#fff;
-    overflow-y:auto;
-    padding:10px;
-    border:1px solid #ccc;
-    margin-bottom:10px;
-  }
-  .message {
-    margin-bottom:10px;
-  }
-  .message .sender {
-    font-weight:bold;
-  }
-  #messageForm input {
-    width:80%;
-    padding:5px;
-  }
-  #messageForm button {
-    padding:5px 10px;
-  }
-  #notification-section {
-    margin-top:20px;
-  }
-  
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  background: #fff;
+  color: #000;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+/* Navigation */
+#top-nav {
+  background: #000;
+  color: #fff;
+  padding: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+#top-nav h1 {
+  font-size: 1.4rem;
+  margin: 0;
+}
+
+#top-nav button {
+  background: none;
+  border: none;
+  color: #fff;
+  font-size: 1.2rem;
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+/* View Containers */
+#auth-view, #contacts-view, #chat-view, #settings-view {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 10px;
+}
+
+/* Forms */
+.form-container, .search-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+input[type="email"],
+input[type="password"],
+input[type="text"] {
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: calc(100% - 24px); /* Adjust for padding */
+}
+
+.full-width-btn {
+  padding: 12px;
+  border: none;
+  border-radius: 5px;
+  background-color: #000;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+  width: 100%;
+}
+
+.full-width-btn.secondary {
+  background-color: #fff;
+  color: #000;
+  border: 1px solid #000;
+}
+
+/* Contacts View */
+#contacts-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.contact-item {
+  background-color: #f0f0f0;
+  padding: 15px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  cursor: pointer;
+}
+
+.contact-item:hover {
+  background-color: #e0e0e0;
+}
+
+.contact-item .avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #ccc;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+}
+
+.contact-item .email {
+  font-size: 1rem;
+}
+
+/* Chat View */
+#chat-header {
+  background: #000;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+}
+
+#chat-title {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+#messages {
+  flex-grow: 1;
+  overflow-y: auto;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.message {
+  background-color: #f0f0f0;
+  padding: 10px 15px;
+  border-radius: 15px;
+  max-width: 70%;
+  word-wrap: break-word;
+}
+
+.message.own {
+  align-self: flex-end;
+  background-color: #e0e0e0;
+}
+
+.message .sender {
+  font-weight: bold;
+  display: block;
+  margin-bottom: 5px;
+}
+
+#message-form {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  position: sticky;
+  bottom: 0;
+  background-color: #fff;
+}
+
+#message-form input {
+  flex-grow: 1;
+}
+
+#message-form button {
+  background: none;
+  border: none;
+  padding: 10px 15px;
+  background-color: #000;
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+/* Settings View */
+#settings-view {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
