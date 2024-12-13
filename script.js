@@ -194,7 +194,7 @@ sendBtn.addEventListener('click', async () => {
 
   // Send push notification via server
   if (notificationsEnabled) {
-    fetch(`$${API_BASE_URL}/send-notification`, {
+    fetch(`${API_BASE_URL}/send-notification`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
