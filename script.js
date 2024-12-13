@@ -2,7 +2,7 @@
 
 // ===========================
 // CONFIGURE THESE VALUES:
-// Replace with your own Firebase project config:
+const API_BASE_URL = 'https://api.totob12.com/cari';
 
 // Replace with your generated VAPID public key
 const VAPID_PUBLIC_KEY = "BJuKex5x3xgK2QK3C3wu0XatbN5plu_WTtapN59rOkzn5N8a5WxWo5RMc6vOjNmt-EztJ4Bizk8c-RLhQpidJg0";
@@ -194,14 +194,14 @@ sendBtn.addEventListener('click', async () => {
 
   // Send push notification via server
   if (notificationsEnabled) {
-      fetch('/send-notification', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          title: 'New Message',
-          body: `Message from ${currentUser.email}`
-        })
-      });
+    fetch(`$${API_BASE_URL}/send-notification`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        title: 'New Message',
+        body: `Message from ${currentUser.email}`
+      })
+    });
   }
 });
 
@@ -231,7 +231,7 @@ toggleNotificationsBtn.addEventListener('click', async () => {
     const subscription = await registration.pushManager.getSubscription();
     if (subscription) {
       await subscription.unsubscribe();
-      await fetch('/unsubscribe', {
+      await fetch(`${API_BASE_URL}/unsubscribe`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ endpoint: subscription.endpoint })
@@ -251,7 +251,7 @@ toggleNotificationsBtn.addEventListener('click', async () => {
           applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY)
         });
         console.log('Push subscription successful:', subscription);
-        await fetch('/subscribe', {
+        await fetch(`${API_BASE_URL}/subscribe`, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(subscription)
