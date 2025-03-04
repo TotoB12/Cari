@@ -54,7 +54,7 @@ function searchFiles(dir, baseDir = "") {
 }
 
 function main() {
-  let formattedContent = `I developing a simple mobile messaging web app, like WhatsApp. I want to use pure HTML, CSS, JavaScript, Node.js, and Firebase for accounts and messages. Here is the full project:\n\n${searchFiles(rootDir)}`;
+  let formattedContent = `I developing a simple mobile messaging web app, like WhatsApp or Discord. I want to use pure HTML, CSS, JavaScript, Node.JS, and Firebase for accounts and messages. Here is the full project:\n\n${searchFiles(rootDir)}`;
   fs.writeFileSync(outputFile, formattedContent);
   console.log(`Formatted content has been saved to ${outputFile}`);
 }
